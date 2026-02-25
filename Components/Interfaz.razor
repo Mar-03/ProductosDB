@@ -1,0 +1,58 @@
+@page "/pedido"
+@inject IConfiguration Configuration
+@using Microsoft.Data.SqlClient
+@using System.Data
+
+<h3>Realizar Pedido</h3>
+
+<div>
+    <label>NIT:</label>
+    <input type="number" @bind="NIT" />
+</div>
+
+<div>
+    <label>Producto:</label>
+    <input type="number" @bind="IdProducto" />
+</div>
+
+<div>
+    <label>Cantidad:</label>
+    <input type="number" @bind="Cantidad" />
+</div>
+
+<button @onclick="RealizarPedido">Realizar Transacción</button>
+
+<p>@Mensaje</p>
+
+@code {
+    int NIT;
+    int IdProducto;
+    int Cantidad;
+    string Mensaje = "";
+
+    private async Task RealizarPedido()
+    {
+        try
+        {
+            using SqlConnection conn = new SqlConnection(
+                Configuration.GetConnectionString("DefaultConnection"));
+
+            await conn.OpenAsync();
+
+            using SqlCommand cmd = new SqlCommand("sp_RealizarPedido", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@NIT", NIT);
+            cmd.Parameters.AddWithValue("@IdProducto", IdProducto);
+            cmd.Parameters.AddWithValue("@Cantidad", Cantidad);
+
+            await cmd.ExecuteNonQueryAsync();
+
+            Mensaje = "Pedido realizado correctamente";
+        }
+        catch (Exception ex)
+        {
+            Mensaje = "Error: " + ex.Message;
+        }
+    }
+}
