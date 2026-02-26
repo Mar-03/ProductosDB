@@ -158,3 +158,8 @@ input {
     font-size: 16px;
     color: #2563eb; 
 }
+
+#filter-payment {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #FFFFFF;
+}
