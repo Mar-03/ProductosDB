@@ -1,58 +1,141 @@
 @page "/pedido"
-@inject IConfiguration Configuration
-@using Microsoft.Data.SqlClient
-@using System.Data
 
-<h3>Realizar Pedido</h3>
+<div class="pedido-container">
 
-<div>
-    <label>NIT:</label>
-    <input type="number" @bind="NIT" />
-</div>
+    <div class="header">
+        <h1>NUEVO PEDIDO</h1>
+        <p>Complete todos los campos requeridos para procesar su transacción de forma segura</p>
+    </div>
 
-<div>
-    <label>Producto:</label>
-    <input type="number" @bind="IdProducto" />
-</div>
+    <div class="layout">
 
-<div>
-    <label>Cantidad:</label>
-    <input type="number" @bind="Cantidad" />
-</div>
+        <!-- COLUMNA IZQUIERDA -->
+        <div class="col-left">
 
-<button @onclick="RealizarPedido">Realizar Transacción</button>
+            <!-- DATOS CLIENTE -->
+            <div class="card card-wide">
+                <h2>DATOS CLIENTE</h2>
 
-<p>@Mensaje</p>
+                <div class="grid-2">
+                    <div>
+                        <label>NIT</label>
+                        <input type="text" />
+                    </div>
 
-@code {
-    int NIT;
-    int IdProducto;
-    int Cantidad;
-    string Mensaje = "";
+                    <div>
+                        <label>Nombre Completo</label>
+                        <input type="text" />
+                    </div>
 
-    private async Task RealizarPedido()
-    {
-        try
-        {
-            using SqlConnection conn = new SqlConnection(
-                Configuration.GetConnectionString("DefaultConnection"));
+                    <div>
+                        <label>Teléfono</label>
+                        <input type="text" />
+                    </div>
 
-            await conn.OpenAsync();
+                    <div>
+                        <label>Correo Electrónico</label>
+                        <input type="email" />
+                    </div>
+                </div>
+            </div>
 
-            using SqlCommand cmd = new SqlCommand("sp_RealizarPedido", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
+            <!-- DETALLE PRODUCTO -->
+            <div class="card card-wide">
+                <h2>DETALLE PRODUCTO</h2>
 
-            cmd.Parameters.AddWithValue("@NIT", NIT);
-            cmd.Parameters.AddWithValue("@IdProducto", IdProducto);
-            cmd.Parameters.AddWithValue("@Cantidad", Cantidad);
+                <div class="grid-3">
+                    <div>
+                        <label>Producto</label>
+                        <input type="text" />
+                    </div>
 
-            await cmd.ExecuteNonQueryAsync();
+                    <div>
+                        <label>Cantidad</label>
+                        <input type="number" />
+                    </div>
 
-            Mensaje = "Pedido realizado correctamente";
-        }
-        catch (Exception ex)
-        {
-            Mensaje = "Error: " + ex.Message;
-        }
-    }
-}
+                    <div>
+                        <label>Tipo de Pedido</label>
+                        <input type="text" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- INFORMACIÓN DE ENVÍO -->
+            <div class="card card-wide">
+                <h2>INFORMACIÓN DE ENVÍO</h2>
+
+                <div class="grid-2">
+                    <div>
+                        <label>Método de Entrega</label>
+                        <input type="text" />
+                    </div>
+
+                    <div>
+                        <label>Ciudad/Municipio</label>
+                        <input type="text" />
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div>
+                        <label>Dirección de Entrega</label>
+                        <input type="text" />
+                    </div>
+
+                    <div>
+                        <label>Referencia</label>
+                        <input type="text" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- COLUMNA DERECHA -->
+        <div class="col-right">
+
+            <!-- MÉTODO DE PAGO -->
+            <div class="card card-narrow">
+                <h2>MÉTODO DE PAGO</h2>
+
+                <label>Tipo de Pago</label>
+                <input type="text" />
+
+                <p class="secure-note">
+                    Sus datos están protegidos con encriptación de grado bancario.
+                </p>
+            </div>
+
+            <!-- RESUMEN DE ORDEN -->
+            <div class="card card-narrow">
+                <h2>RESUMEN DE ORDEN</h2>
+
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <input type="text" readonly />
+                </div>
+
+                <div class="summary-row">
+                    <span>Envío</span>
+                    <input type="text" readonly />
+                </div>
+
+                <div class="summary-row">
+                    <span>Impuestos (IVA)</span>
+                    <input type="text" readonly />
+                </div>
+
+                <div class="summary-row total">
+                    <span>TOTAL</span>
+                    <input type="text" readonly />
+                </div>
+
+                <button class="btn-primary">Realizar Transacción</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    </div>
