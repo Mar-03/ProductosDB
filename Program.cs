@@ -1,10 +1,11 @@
+using System.IO.Compression;
 using ProductosDb.Components;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 // Add services to the container.
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents().Services.AddScoped<PedidoService>();
+    .AddInteractiveServerComponents().Services.AddScoped<PedidoService>(sp => new PedidoService(connectionString));
 
 var app = builder.Build();
 
