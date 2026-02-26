@@ -141,3 +141,20 @@ input {
     font-size: 12px;
     color: #555;
 }
+
+.info-box {
+    margin-top: 15px;
+    padding: 12px 14px;
+    background-color: #e6f4ff; 
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: #1d4ed8; 
+}
+
+.info-icon {
+    font-size: 16px;
+    color: #2563eb; 
+}
