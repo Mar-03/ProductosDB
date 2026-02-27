@@ -1,4 +1,4 @@
-@page "/"
+
 
 @rendermode InteractiveServer
 
@@ -48,15 +48,7 @@
                 <div class="grid-3">
                     <div>
                         <label>Producto</label>
-                      <select @bind="pedido.IdProducto">
-    <option value="">Seleccione</option>
-    @foreach (var producto in ListaProductos)
-    {
-        <option value="@producto.IdProducto">
-            @producto.Nombre - Q @producto.Precio
-        </option>
-    }
-</select>
+                        <input type="text" />
                     </div>
 
                     <div>
@@ -66,16 +58,7 @@
 
                     <div>
                         <label>Tipo de Pedido</label>
-                       <select @bind="pedido.TipoPedido">
-            <option value="">Seleccione</option>
-
-                <option value="Normal">Normal</option>
-
-            @if (pedido.MetodoEntrega == "Domicilio")
-                {
-        <option value="Express">Express</option>
-                 }
-                </select>
+                        <input type="text" />
                     </div>
                 </div>
             </div>
@@ -87,35 +70,26 @@
                 <div class="grid-2">
                     <div>
                         <label>Método de Entrega</label>
-                        <select @bind="pedido.MetodoEntrega">
-                            <option value="">Seleccione</option>
-                            <option value="Domicilio">A Domicilio</option>
-                            <option value="Tienda">Recoger en Tienda</option>
-                            </select>
-                    </div>
+                        <input type="text" />
                     </div>
 
-                  @if (pedido.MetodoEntrega == "Domicilio")
-                        {
-                         <div class="grid-2">
-                            <div>
-            <label>Ciudad/Municipio</label>
-            <input type="text" @bind="pedido.Ciudad" />
-        </div>
-    </div>
+                    <div>
+                        <label>Ciudad/Municipio</label>
+                        <input type="text" />
+                    </div>
+                </div>
 
-    <div class="grid-2">
-        <div>
-            <label>Dirección de Entrega</label>
-            <input type="text" @bind="pedido.Direccion" />
-        </div>
+                <div class="grid-2">
+                    <div>
+                        <label>Dirección de Entrega</label>
+                        <input type="text" />
+                    </div>
 
-        <div>
-            <label>Referencia</label>
-            <input type="text" @bind="pedido.Referencia" />
-        </div>
-    </div>
-}
+                    <div>
+                        <label>Referencia</label>
+                        <input type="text" />
+                    </div>
+                </div>
                 <div>
                     <button class="btn-primary" @onclick="ConfirmarDatos"> Confirmar Datos</button>
                 </div>
@@ -209,3 +183,38 @@
 
 </div>
 
+@code {
+    string TipoPagoSeleccionado = "";
+    string NumeroTarjeta = "";
+    string NumeroTransferencia = "";
+
+    bool MostrarErrores = false;
+
+    bool MostrarBotonTransaccion = false;
+
+
+    void ConfirmarDatos()
+    {
+        MostrarBotonTransaccion = true;
+    }
+
+
+    void RealizarTransaccion()
+    {
+        MostrarErrores = true;
+
+        if (string.IsNullOrWhiteSpace(TipoPagoSeleccionado))
+            return;
+
+        if (TipoPagoSeleccionado == "tarjeta" &&
+            string.IsNullOrWhiteSpace(NumeroTarjeta))
+            return;
+
+        if (TipoPagoSeleccionado == "transferencia" &&
+            string.IsNullOrWhiteSpace(NumeroTransferencia))
+            return;
+
+        // Si pasa validación
+        Console.WriteLine("Transacción válida");
+    }
+}
