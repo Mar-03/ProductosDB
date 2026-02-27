@@ -8,4 +8,8 @@ public class ProductoModel
     public string Descripcion { get; set; }
     public int Stock { get; set; }
     public decimal Precio { get; set; }
+     public int NIT { get; set; }
+    public string NombreCompleto { get; set; }
+    public string Telefono { get; set; }
+    public string Correo { get; set; }
 }}

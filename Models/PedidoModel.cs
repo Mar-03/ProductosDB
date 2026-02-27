@@ -14,7 +14,7 @@ namespace ProductosDb.Models
         [Required]
         public int Cantidad { get; set; }
 
-        public int IdMetodo { get; set; }  // 👈 AGREGA ESTO
+        public int IdMetodo { get; set; }  
 
         [Required]
         public string MetodoEntrega { get; set; } = string.Empty;
@@ -25,5 +25,9 @@ namespace ProductosDb.Models
         public string? Ciudad { get; set; }
         public string? Direccion { get; set; }
         public string? Referencia { get; set; }
+        
+    public string NombreCompleto { get; set; }
+    public string Telefono { get; set; }
+    public string Correo { get; set; }
     }
 }

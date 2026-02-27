@@ -21,22 +21,22 @@
                 <div class="grid-2">
                     <div>
                         <label>NIT</label>
-                        <input type="text" />
+                        <input type="number" @bind="pedido.NIT" />
                     </div>
 
                     <div>
                         <label>Nombre Completo</label>
-                        <input type="text" />
+                        <input type="text" @bind="pedido.NombreCompleto" />
                     </div>
 
                     <div>
                         <label>Teléfono</label>
-                        <input type="text" />
+                        <input type="text" @bind="pedido.Telefono" />
                     </div>
 
                     <div>
                         <label>Correo Electrónico</label>
-                        <input type="email" />
+                        <input type="email" @bind="pedido.Correo" />
                     </div>
                 </div>
             </div>
@@ -61,7 +61,7 @@
 
                     <div>
                         <label>Cantidad</label>
-                        <input type="number" min="0" />
+                        <input type="number" min="1" @bind="pedido.Cantidad" />
                     </div>
 
                     <div>
@@ -118,6 +118,12 @@
 }
                 <div>
                     <button class="btn-primary" @onclick="ConfirmarDatos"> Confirmar Datos</button>
+                    @if (!string.IsNullOrEmpty(MensajeResultado))
+{
+    <div style="color:red; margin-top:10px;">
+        @MensajeResultado
+    </div>
+}
                 </div>
             </div>
 
@@ -175,22 +181,25 @@
 
                 <div class="summary-row">
                     <span>Subtotal</span>
-                    <input type="text" readonly />
+                    <input value="@Subtotal" readonly />
+
                 </div>
 
                 <div class="summary-row">
                     <span>Envío</span>
-                    <input type="text" readonly />
+                    <input value="@Envio" readonly />
+
                 </div>
 
                 <div class="summary-row">
                     <span>Impuestos (IVA)</span>
-                    <input type="text" readonly />
+                    <input value="@IVA" readonly />
+
                 </div>
 
                 <div class="summary-row total">
                     <span>TOTAL</span>
-                    <input type="text" readonly />
+                   <input value="@Total" readonly />
                 </div>
 
 
@@ -198,6 +207,7 @@
                 {
                     <button class="btn-primary" @onclick="RealizarTransaccion">
                         Realizar Transacción
+                        
                     </button>
                 }
 

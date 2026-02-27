@@ -42,4 +42,46 @@ public class ProductoService
 
         return productos;
     }
+    public async Task<bool> ClienteExisteAsync(int nit)
+{
+    using SqlConnection conn = new SqlConnection(_connectionString);
+    await conn.OpenAsync();
+
+    string query = "SELECT COUNT(*) FROM Cliente WHERE NIT = @NIT";
+
+    using SqlCommand cmd = new SqlCommand(query, conn);
+    cmd.Parameters.AddWithValue("@NIT", nit);
+
+    int count = (int)await cmd.ExecuteScalarAsync();
+    return count > 0;
+}
+    public async Task<string> RegistrarPedidoAsync(
+    int nit,
+    int idProducto,
+    int cantidad,
+    int idMetodo)
+{
+    using SqlConnection conn = new SqlConnection(_connectionString);
+    await conn.OpenAsync();
+
+    using SqlCommand cmd = new SqlCommand("sp_RegistroPedido", conn);
+    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+    cmd.Parameters.AddWithValue("@NIT", nit);
+    cmd.Parameters.AddWithValue("@IdProducto", idProducto);
+    cmd.Parameters.AddWithValue("@Cantidad", cantidad);
+    cmd.Parameters.AddWithValue("@IdMetodo", idMetodo);
+
+    var mensajeParam = new SqlParameter("@Mensaje",
+        System.Data.SqlDbType.VarChar, 200)
+    {
+        Direction = System.Data.ParameterDirection.Output
+    };
+
+    cmd.Parameters.Add(mensajeParam);
+
+    await cmd.ExecuteNonQueryAsync();
+
+    return mensajeParam.Value?.ToString() ?? "";
+}
 }
