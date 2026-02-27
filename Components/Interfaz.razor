@@ -53,7 +53,7 @@
 
                     <div>
                         <label>Cantidad</label>
-                        <input type="number" min ="0"/>
+                        <input type="number" min="0" />
                     </div>
 
                     <div>
@@ -90,6 +90,9 @@
                         <input type="text" />
                     </div>
                 </div>
+                <div>
+                    <button class="btn-primary" @onclick="ConfirmarDatos"> Confirmar Datos</button>
+                </div>
             </div>
 
         </div>
@@ -98,52 +101,47 @@
         <div class="col-right">
 
             <!-- MÉTODO DE PAGO -->
-<div class="card card-narrow">
-    <h2><i class="bi bi-credit-card icon"></i> MÉTODO DE PAGO</h2>
-<label>Tipo de Pago</label>
-<select id="filter-payment" @bind="TipoPagoSeleccionado">
-    <option value="">Seleccione</option>
-    <option value="efectivo">Efectivo</option>
-    <option value="tarjeta">Pago con Tarjeta</option>
-    <option value="transferencia">Transferencia</option>
-</select>
+            <div class="card card-narrow">
+                <h2><i class="bi bi-credit-card icon"></i> MÉTODO DE PAGO</h2>
+                <label>Tipo de Pago</label>
+                <select id="filter-payment" @bind="TipoPagoSeleccionado">
+                    <option value="">Seleccione</option>
+                    <option value="efectivo">Efectivo</option>
+                    <option value="tarjeta">Pago con Tarjeta</option>
+                    <option value="transferencia">Transferencia</option>
+                </select>
 
-@if (TipoPagoSeleccionado == "tarjeta")
-{
-    <div class="mt-3">
-        <label>Número de Tarjeta</label>
-        <input type="text"
-               @bind="NumeroTarjeta"
-               placeholder="Ingrese número de tarjeta" />
+                @if (TipoPagoSeleccionado == "tarjeta")
+                {
+                    <div class="mt-3">
+                        <label>Número de Tarjeta</label>
+                        <input type="text" @bind="NumeroTarjeta" placeholder="Ingrese número de tarjeta" />
 
-        @if (MostrarErrores && string.IsNullOrWhiteSpace(NumeroTarjeta))
-        {
-            <small style="color:red">Debe ingresar número de tarjeta</small>
-        }
-    </div>
-}
+                        @if (MostrarErrores && string.IsNullOrWhiteSpace(NumeroTarjeta))
+                        {
+                            <small style="color:red">Debe ingresar número de tarjeta</small>
+                        }
+                    </div>
+                }
 
-@if (TipoPagoSeleccionado == "transferencia")
-{
-    <div class="mt-3">
-        <label>Número de Transferencia</label>
-        <input type="text"
-               @bind="NumeroTransferencia"
-               placeholder="Ingrese número de transferencia" />
+                @if (TipoPagoSeleccionado == "transferencia")
+                {
+                    <div class="mt-3">
+                        <label>Número de Transferencia</label>
+                        <input type="text" @bind="NumeroTransferencia" placeholder="Ingrese número de transferencia" />
 
-        @if (MostrarErrores && string.IsNullOrWhiteSpace(NumeroTransferencia))
-        {
-            <small style="color:red">Debe ingresar número de transferencia</small>
-        }
-    </div>
-}
-    <div class="info-box mt-3">
-        <i class="bi bi-info-circle-fill info-icon"></i>
-        <span>Sus datos están protegidos con encriptación de grado bancario.</span>
-    </div>
+                        @if (MostrarErrores && string.IsNullOrWhiteSpace(NumeroTransferencia))
+                        {
+                            <small style="color:red">Debe ingresar número de transferencia</small>
+                        }
+                    </div>
+                }
+                <div class="info-box mt-3">
+                    <i class="bi bi-info-circle-fill info-icon"></i>
+                    <span>Sus datos están protegidos con encriptación de grado bancario.</span>
+                </div>
 
-    
-</div>
+            </div>
 
             <!-- RESUMEN DE ORDEN -->
             <div class="card card-narrow">
@@ -169,23 +167,37 @@
                     <input type="text" readonly />
                 </div>
 
-                <button class="btn-primary" @onclick="RealizarTransaccion">
-    Realizar Transacción
-</button>
+
+                @if (MostrarBotonTransaccion)
+                {
+                    <button class="btn-primary" @onclick="RealizarTransaccion">
+                        Realizar Transacción
+                    </button>
+                }
+
             </div>
 
         </div>
 
     </div>
 
-    </div>
+</div>
 
-    @code{
+@code {
     string TipoPagoSeleccionado = "";
     string NumeroTarjeta = "";
     string NumeroTransferencia = "";
 
     bool MostrarErrores = false;
+
+    bool MostrarBotonTransaccion = false;
+
+
+    void ConfirmarDatos()
+    {
+        MostrarBotonTransaccion = true;
+    }
+
 
     void RealizarTransaccion()
     {
