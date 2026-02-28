@@ -99,7 +99,11 @@ namespace ProductosDb.Components
         pedido.NIT,
         pedido.IdProducto,
         pedido.Cantidad,
-        idMetodo
+        idMetodo,
+        pedido.Correo,
+        pedido.NombreCompleto,
+        pedido.Telefono
+        
     );
 
     MensajeResultado = mensaje;

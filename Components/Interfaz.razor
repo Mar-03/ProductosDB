@@ -1,6 +1,7 @@
 @page "/"
 
 @rendermode InteractiveServer
+@inject IJSRuntime JS
 
 <div class="pedido-container">
 
@@ -21,7 +22,7 @@
                 <div class="grid-2">
                     <div>
                         <label>NIT</label>
-                        <input type="number" @bind="pedido.NIT" />
+                        <input type="number" min="1" @bind="pedido.NIT" />
                     </div>
 
                     <div>
@@ -48,15 +49,15 @@
                 <div class="grid-3">
                     <div>
                         <label>Producto</label>
-                      <select @bind="pedido.IdProducto">
-    <option value="">Seleccione</option>
-    @foreach (var producto in ListaProductos)
-    {
-        <option value="@producto.IdProducto">
-            @producto.Nombre - Q @producto.Precio
-        </option>
-    }
-</select>
+                        <select @bind="pedido.IdProducto">
+                            <option value="">Seleccione</option>
+                            @foreach (var producto in ListaProductos)
+                            {
+                                <option value="@producto.IdProducto">
+                                    @producto.Nombre - Q @producto.Precio
+                                </option>
+                            }
+                        </select>
                     </div>
 
                     <div>
@@ -66,16 +67,16 @@
 
                     <div>
                         <label>Tipo de Pedido</label>
-                       <select @bind="pedido.TipoPedido">
-            <option value="">Seleccione</option>
+                        <select @bind="pedido.TipoPedido">
+                            <option value="">Seleccione</option>
 
-                <option value="Normal">Normal</option>
+                            <option value="Normal">Normal</option>
 
-            @if (pedido.MetodoEntrega == "Domicilio")
-                {
-        <option value="Express">Express</option>
-                 }
-                </select>
+                            @if (pedido.MetodoEntrega == "Domicilio")
+                            {
+                                <option value="Express">Express</option>
+                            }
+                        </select>
                     </div>
                 </div>
             </div>
@@ -91,39 +92,39 @@
                             <option value="">Seleccione</option>
                             <option value="Domicilio">A Domicilio</option>
                             <option value="Tienda">Recoger en Tienda</option>
-                            </select>
+                        </select>
                     </div>
+                </div>
+
+                @if (pedido.MetodoEntrega == "Domicilio")
+                {
+                    <div class="grid-2">
+                        <div>
+                            <label>Ciudad/Municipio</label>
+                            <input type="text" @bind="pedido.Ciudad" />
+                        </div>
                     </div>
 
-                  @if (pedido.MetodoEntrega == "Domicilio")
-                        {
-                         <div class="grid-2">
-                            <div>
-            <label>Ciudad/Municipio</label>
-            <input type="text" @bind="pedido.Ciudad" />
-        </div>
-    </div>
+                    <div class="grid-2">
+                        <div>
+                            <label>Dirección de Entrega</label>
+                            <input type="text" @bind="pedido.Direccion" />
+                        </div>
 
-    <div class="grid-2">
-        <div>
-            <label>Dirección de Entrega</label>
-            <input type="text" @bind="pedido.Direccion" />
-        </div>
-
-        <div>
-            <label>Referencia</label>
-            <input type="text" @bind="pedido.Referencia" />
-        </div>
-    </div>
-}
+                        <div>
+                            <label>Referencia</label>
+                            <input type="text" @bind="pedido.Referencia" />
+                        </div>
+                    </div>
+                }
                 <div>
                     <button class="btn-primary" @onclick="ConfirmarDatos"> Confirmar Datos</button>
                     @if (!string.IsNullOrEmpty(MensajeResultado))
-{
-    <div style="color:red; margin-top:10px;">
-        @MensajeResultado
-    </div>
-}
+                    {
+                        <div style="color:red; margin-top:10px;">
+                            @MensajeResultado
+                        </div>
+                    }
                 </div>
             </div>
 
@@ -199,16 +200,17 @@
 
                 <div class="summary-row total">
                     <span>TOTAL</span>
-                   <input value="@Total" readonly />
+                    <input value="@Total" readonly />
                 </div>
 
 
                 @if (MostrarBotonTransaccion)
                 {
-                    <button class="btn-primary" @onclick="RealizarTransaccion">
+                    <button class="btn-primary" @onclick="RealizarTransaccion" @onclick="ConfirmarDatos">
                         Realizar Transacción
-                        
+
                     </button>
+                    Console.WriteLine("Botón");
                 }
 
             </div>
@@ -218,4 +220,3 @@
     </div>
 
 </div>
-

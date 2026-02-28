@@ -2,6 +2,8 @@
 using Microsoft.Data.SqlClient;
 using ProductosDb.Models;
 using System.Collections.Generic;
+using System.Net.Mail;
+using System.Security.Cryptography.Pkcs;
 using System.Threading.Tasks;
 
 public class ProductoService
@@ -59,7 +61,10 @@ public class ProductoService
     int nit,
     int idProducto,
     int cantidad,
-    int idMetodo)
+    int idMetodo,
+    string correo,
+    string nombre,
+    string telefono)
 {
     using SqlConnection conn = new SqlConnection(_connectionString);
     await conn.OpenAsync();
@@ -71,6 +76,9 @@ public class ProductoService
     cmd.Parameters.AddWithValue("@IdProducto", idProducto);
     cmd.Parameters.AddWithValue("@Cantidad", cantidad);
     cmd.Parameters.AddWithValue("@IdMetodo", idMetodo);
+    cmd.Parameters.AddWithValue("@Correo", correo);
+    cmd.Parameters.AddWithValue("@Nombre", nombre);
+    cmd.Parameters.AddWithValue("@Telefono", telefono);
 
     var mensajeParam = new SqlParameter("@Mensaje",
         System.Data.SqlDbType.VarChar, 200)
